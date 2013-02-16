@@ -16,11 +16,7 @@
 <body>
 <div id="content" metal:fill-slot="prefs_configlet_content">
 
-<!--     <script type="text/javascript"
-        tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
-    </script> -->
-
-    <dl class="portalMessage info">
+<!--     <dl class="portalMessage info">
         <dt i18n:translate="">
             Information
         </dt>
@@ -35,7 +31,7 @@
                      class="standalone" />
           </span>
         </dd>
-    </dl>
+    </dl> -->
 
     <div metal:use-macro="context/global_statusmessage/macros/portal_message">
       Portal status message
@@ -50,10 +46,29 @@
 
     <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
 
-    <div id="layout-contents">
-        <span tal:replace="structure view/contents" />
-    </div>
+    <div id="content-core">
+      <div class="row-fluid">
+        <div class="span6">
+          <section class="lead warning clearfix">
+            <p><strong>Restricted user token.</strong></p>
+            <p>sdlfalsdjfhl alaskdjf lasdf  aldkf k</p>
+            <button class="btn pull-right">Retrieve token</button>
+          </section>
+        </div>
 
+        <div class="span6">
+          <p class="lead warning">
+            Application user token.
+          </p>
+        </div>
+      </div>
+
+      <div class="row-fluid">
+        <div class="span12">
+            <span tal:replace="structure view/contents" />
+        </div>
+      </div>
+    </div>
 </div>
 </body>
 </html>

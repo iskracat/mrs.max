@@ -5,12 +5,12 @@ from zope.component import queryUtility
 from zope.interface import implements
 from zope.component import adapts
 
-from upc.maxui.browser.controlpanel import IMAXUISettings
-from upc.maxclient import MaxClient
+from maxclient import MaxClient
+from mrs.max.browser.controlpanel import IMAXUISettings
 
-import requests
 import json
 import logging
+import requests
 
 
 def getToken(credentials, grant_type=None):

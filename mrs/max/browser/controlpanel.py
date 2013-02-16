@@ -16,6 +16,8 @@ from mrs.max import MRSMAXMessageFactory as _
 import logging
 from maxclient import MaxClient
 
+from plone.directives import form
+
 
 DEFAULT_OAUTH_TOKEN_ENDPOINT = 'https://oauth.upc.edu/token'
 DEFAULT_OAUTH_GRANT_TYPE = 'password'
@@ -25,7 +27,7 @@ DEFAULT_MAX_APP_DISPLAYNAME = 'App Display Name'
 DEFAULT_MAX_APP_PASSWORD = 'apppass'
 
 
-class IMAXUISettings(Interface):
+class IMAXUISettings(form.Schema):
     """Global oAuth settings. This describes records stored in the
     configuration registry and obtainable via plone.registry.
     """
@@ -75,7 +77,7 @@ class IMAXUISettings(Interface):
         title=_(u'label_max_app_displayname', default=u'MAX application agent display Name'),
         description=_(u'help_max_app_displayname',
                         default=u"Please, specify the MAX application agent display Name."),
-        required=True,
+        required=False,
         default=DEFAULT_MAX_APP_USERNAME
         )
 
@@ -83,10 +85,11 @@ class IMAXUISettings(Interface):
         title=_(u'label_max_app_password', default=u'MAX application agent password'),
         description=_(u'help_max_app_password',
                         default=u"Please, specify the MAX application agent password."),
-        required=True,
+        required=False,
         default=DEFAULT_MAX_APP_PASSWORD
         )
 
+    form.mode(max_app_token='hidden')
     max_app_token = schema.ASCIILine(
         title=_(u'label_max_app_token', default=u'MAX application token'),
         description=_(u'help_max_app_token',
