@@ -1,0 +1,48 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="mrs.max">
+
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <includeDependencies package="." />
+
+  <include package=".browser" />
+  <include package=".portlets" />
+
+  <include package="plone.resource" file="meta.zcml"/>
+
+  <!-- Resource traversers -->
+  <adapter
+      name="maxui"
+      for="* zope.publisher.interfaces.IRequest"
+      provides="zope.traversing.interfaces.ITraversable"
+      factory=".traversal.MAXUITraverser"
+      />
+
+  <plone:static
+      directory="static"
+      type="maxui"
+      name="static"
+      />
+
+  <!-- Preauth PAS plugin adapters -->
+  <adapter
+      name="oauthtokenretriever"
+      factory=".max.oauthTokenRetriever" />
+
+  <adapter
+      name="maxusercreator"
+      factory=".max.maxUserCreator" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="mrs.max"
+      directory="profiles/default"
+      description="Installs the mrs.max package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>
