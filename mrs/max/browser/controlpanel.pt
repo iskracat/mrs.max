@@ -7,9 +7,20 @@
       i18n:domain="plone">
 
 <metal:javascript_head_slot fill-slot="javascript_head_slot">
-<!--     <script type="text/javascript"
-        tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
-    </script> -->
+<script type="text/javascript">
+(function($) {
+
+    $().ready(function() {
+        $('.formControls input').click(function (event) {
+          event.preventDefault();
+          $.get('@@migration-view', function(data) {
+            $('.results').html(data)
+          });
+        });
+    });
+
+})(jQuery);
+</script>
 </metal:javascript_head_slot>
 
 
@@ -50,18 +61,44 @@
       <div class="row-fluid">
         <div class="span6">
           <section class="lead warning clearfix">
-            <p><strong>Restricted user token.</strong></p>
-            <p>sdlfalsdjfhl alaskdjf lasdf  aldkf k</p>
-            <button class="btn pull-right">Retrieve token</button>
+            <p><strong>Restricted user token</strong></p>
+
+            <p>This is the restricted user token that the app will use to access
+            the restricted API in order to perform special actions in the MAX
+            server (e.g. create an user in the platform)</p>
+
+            <button class="btn pull-right" data-user="restricted" data-toggle="modal" data-target="#getTokenModal" href="getToken">Retrieve token</button>
           </section>
         </div>
 
         <div class="span6">
-          <p class="lead warning">
-            Application user token.
-          </p>
+          <section class="lead warning clearfix">
+            <p><strong>Application user token</strong></p>
+
+            <p> This user token will be used to impersonate the application (the
+              site) when it has to issue activity to MAX. This activity is
+              issued through hooks that the application triggers when an event
+              happens (e.g. when the user upload a file or publish a
+              document.</p>
+
+            <button class="btn pull-right" data-user="app">Retrieve token</button>
+          </section>
         </div>
       </div>
+
+      <!-- Modal -->
+      <div id="getTokenModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="getTokenModal" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">Get Token</h3>
+        </div>
+        <div class="modal-body">
+          <p>One fine body…</p>
+        </div>
+
+      </div>
+
+
 
       <div class="row-fluid">
         <div class="span12">
