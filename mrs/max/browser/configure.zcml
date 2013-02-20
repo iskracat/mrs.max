@@ -6,18 +6,25 @@
     i18n_domain="mrs.max">
 
     <browser:page
+      name="avatar"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".avatar.getAvatar"
+      permission="genweb.authenticated"
+      />
+
+    <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="max_variables.js"
         class=".variables.MAXJSVariables"
         permission="zope.Public"
         />
 
-      <!-- Control panel -->
-      <browser:page
-          name="maxui-settings"
-          for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-          class=".controlpanel.MAXUISettingsControlPanel"
-          permission="cmf.ManagePortal"
-          />
+    <!-- Control panel -->
+    <browser:page
+        name="maxui-settings"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".controlpanel.MAXUISettingsControlPanel"
+        permission="cmf.ManagePortal"
+        />
 
 </configure>

@@ -17,7 +17,7 @@ window._MAXUI.onReady = function() {
                 'maxServerURLAlias' : _MAXUI.max_server_alias,
                 'avatarURLpattern' : _MAXUI.avatar_url,
                 'readContext' : _MAXUI.contexts,
-                'activitySource': 'activities'
+                'activitySource': 'timeline'
                }
 
     $('#maxui-widget-container').maxUI(settings)
@@ -31,7 +31,7 @@ window._MAXUI.onReady = function() {
 */
 
 (function(d){
-var mui_location = '++resource++max.ui.js'
+var mui_location = '++maxui++static/max.ui.js'
 var mui = d.createElement('script'); mui.type = 'text/javascript'; mui.async = true;
 mui.src = mui_location
 var s = d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mui, s);

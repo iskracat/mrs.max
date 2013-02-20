@@ -8,9 +8,9 @@ from zope.component import adapts
 from maxclient import MaxClient
 from mrs.max.browser.controlpanel import IMAXUISettings
 
-import json
 import logging
-import requests
+
+logger = logging.getLogger('mrs.max')
 
 
 def getToken(credentials, grant_type=None):
@@ -21,17 +21,16 @@ def getToken(credentials, grant_type=None):
     # Pick grant type from settings unless passed as optonal argument
     effective_grant_type = grant_type != None and grant_type or settings.oauth_grant_type
 
-    payload = {"grant_type": effective_grant_type,
-               "client_id": "MAX",
-               "scope": "widgetcli",
-               "username": user,
-               "password": password
-               }
-
     ## TODO: Do we need to ask for a token always?
-    r = requests.post(settings.oauth_token_endpoint, data=payload, verify=False)
-    response = json.loads(r.text)
-    return response.get("oauth_token")
+    # r = requests.post(settings.oauth_token_endpoint, data=payload, verify=False)
+    maxclient = MaxClient(url=settings.max_server, oauth_server=settings.oauth_server, grant_type=effective_grant_type)
+
+    try:
+        token = maxclient.getToken(user, password)
+        return token
+    except AttributeError, error:
+        logger.error('oAuth token could not be retrieved for user: %s Reason: %s' % (user, error))
+        return ''
 
 
 class oauthTokenRetriever(object):
@@ -42,7 +41,7 @@ class oauthTokenRetriever(object):
         self.context = context
 
     def execute(self, credentials):
-        logger = logging.getLogger('upc.maxui')
+
         user = credentials.get('login')
 
         if user == "admin":
@@ -54,7 +53,7 @@ class oauthTokenRetriever(object):
         member = pm.getMemberById(user)
         member.setMemberProperties({'oauth_token': oauth_token})
 
-        logger.info('oAuth token set for user: %s ' % user)
+        logger.error('oAuth token set for user: %s ' % user)
 
 
 class maxUserCreator(object):
@@ -65,21 +64,23 @@ class maxUserCreator(object):
         self.context = context
 
     def execute(self, credentials):
-        logger = logging.getLogger('upc.maxui')
         user = credentials.get('login')
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IMAXUISettings, check=False)
+        # Pick grant type from settings unless passed as optonal argument
+        effective_grant_type = settings.oauth_grant_type
 
         if user == "admin":
             return
 
-        # max = MaxClient(settings.max_server, auth_method="basic")
-        # max.setBasicAuth(settings.max_ops_username, settings.max_ops_password)
-        # result = max.addUser(user)
+        maxclient = MaxClient(url=settings.max_server, oauth_server=settings.oauth_server, grant_type=effective_grant_type)
+        maxclient.setActor(settings.max_restricted_username)
+        maxclient.setToken(settings.max_restricted_token)
+        result = maxclient.addUser(user)
 
-        # if not result:
-        #     logger.info('Error creating MAX user for user: %s' % user)
-        # else:
-        #     logger.info('MAX user created for user: %s' % user)
-        #     max.setActor(user)
-        #     max.subscribe(getToolByName(self.context, "portal_url").getPortalObject().absolute_url())
+        if not result:
+            logger.error('Error creating MAX user for user: %s' % user)
+        else:
+            logger.error('MAX user created for user: %s' % user)
+            maxclient.setActor(user)
+            maxclient.subscribe(getToolByName(self.context, "portal_url").getPortalObject().absolute_url())

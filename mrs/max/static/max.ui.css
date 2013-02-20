@@ -9,12 +9,67 @@
 #maxui-container {text-shadow: 0 1px #fff; font:13px/18px Arial, "HelveticaNeue","Helvetica Neue",Helvetica,sans-serif;color:#333;}
 
 #maxui-preload {height:0px;}
-.activities .maxui-activity {border-top: 1px #fff solid;border-bottom: 1px #ccc solid;width:100%;float:left;padding:8px 0;padding-left:0; min-height:51px;}
-
+.activities .maxui-activity {border-top: 1px #fff solid;border-bottom: 1px #ccc solid;width:100%;padding:8px 0;padding-left:0; min-height:51px;}
+.activities .maxui-conversation {border-top: 1px #fff solid;border-bottom: 1px #ccc solid;width:100%;padding:8px 0;padding-left:0; min-height:51px;}
 #maxui-timeline .wrapper {}
 
-#maxui-newactivity {padding:10px; position:relative; background: #f2f2f2 url('++resource++bgact.gif') 0 0 repeat;}
+#maxui-newactivity {padding:10px; position:relative; background: #f2f2f2 url('/++maxui++static/bgact.gif') 0 0 repeat;}
 #maxui-newactivity:after {content: "";display: block;height: 0;clear: both;}
+
+#maxui-predictive {
+width:200px;
+background-color: white;
+margin-top:-32px;
+margin-left:57px;
+position:absolute;
+z-index: 100;
+border: 1px #b2b2b2 solid;;
+-moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+}
+
+#maxui-predictive ul {
+
+list-style: none;
+margin:0px;
+padding:1px;
+}
+
+li.maxui-prediction {
+	padding:0px 4px 2px 0px;
+	cursor:pointer;
+
+}
+
+li.maxui-prediction.selected {
+background-color: #ddd;
+}
+
+#maxui-show-timeline {
+	padding-bottom:3px;
+	text-align:center;
+	background: #f2f2f2 url('/++maxui++static/bgact.gif') 0 0 repeat;
+	border-top: 1px #b2b2b2 solid;
+	height:18px;
+
+}
+
+#maxui-back-conversations, #maxui-show-conversations {
+	padding-bottom:3px;
+	text-align:center;
+	background: #f2f2f2 url('/++maxui++static/bgact.gif') 0 0 repeat;
+	border-bottom: 1px #b2b2b2 solid;
+	height:18px;
+}
+
+.maxui-togglebar a{
+    color:#929292 !important;
+    font-weight: bold;
+}
+
+.maxui-togglebar a:hover {
+	color:#555 !important;
+	text-decoration: none !important;
+}
 
 #maxui-newactivity textarea, .maxui-comments textarea {
 width:100%;
@@ -29,6 +84,11 @@ font-family: Arial, Helvetica, sans-serif;
 font-size: 13px;line-height: 18px;
 overflow: auto;resize: vertical ;
 }
+
+#maxui-newactivity textarea.error {
+
+}
+
 #maxui-newactivity textarea:focus, .maxui-comments textarea:focus {color:#333;}
 
 .maxui-newcommentBoxContainer {padding-right:0 5px;padding-top:5px;}
@@ -90,12 +150,18 @@ input.maxui-button[disabled] {-webkit-appearance: none;border:1px solid #b2b2b2;
 
 
 #maxui-timeline {clear:both;margin:0;overflow: hidden; padding:0 10px; background:#fff;}
+#maxui-conversations {clear:both;margin:0;overflow: hidden; padding:0 0 0 10px; background:#fff;  border-bottom:1px #ccc solid;}
 
+#maxui-conversations-list {
+	outline:none;
+}
 	.activities .maxui-avatar img {float:left;}
 	.maxui-avatar img {width:48px;
 		-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;
 		-moz-box-shadow:0 1px #fff;-webkit-box-shadow:0 1px #fff;box-shadow:0 1px #fff;
 	}
+
+
 
 .activities .maxui-activity-content {margin:-5px 0 0 55px;}
 	.activities .maxui-comments .maxui-activity-content {
@@ -111,6 +177,7 @@ input.maxui-button[disabled] {-webkit-appearance: none;border:1px solid #b2b2b2;
 
 #maxui-newactivity .maxui-avatar img {*position:absolute;}
 #maxui-newactivity #maxui-newactivity-box {margin-left:56px;text-align:right;}
+#maxui-newactivity #maxui-newactivity-box textarea{position:relative;}
 
 .maxui-clear {clear:both;float:none;}
 
@@ -121,22 +188,28 @@ input.maxui-button[disabled] {-webkit-appearance: none;border:1px solid #b2b2b2;
 p.maxui-body {margin:0;font-size:13px;}
 	.maxui-comment .maxui-activity-content p.maxui-body {font-size:12px !important;}
 
-.maxui-publisheddate{
+.maxui-topright{
 font-size:11px;
 color:  #6e6e6e;
 float:right;
 padding-top:1px;
+text-align: right;
 }
+.maxui-enterconversation{
+float:right;
+padding-top:6px;
+}
+
 
 .maxui-actions a, .maxui-origin{
 display:inline;
 margin-left: 56px;
 padding-right:10px;
 }
-.maxui-origin {color:#6e6e6e; font-size:11px; background:url('++resource++maxcomm.png') 0 -77px no-repeat; padding-left:10px;}
+.maxui-origin {color:#6e6e6e; font-size:11px; background:url('/++maxui++static/maxcomm.png') 0 -77px no-repeat; padding-left:10px;}
 .maxui-actions a.maxui-commentaction {
 font-size:12px;
-background: url('++resource++maxcomm.png') no-repeat 0 2px;
+background: url('/++maxui++static/maxcomm.png') no-repeat 0 2px;
 color:#007bc0;
 text-decoration:none;
 padding-left:18px;
@@ -240,6 +313,7 @@ padding:1px 5px;
 font-family: Arial, Helvetica, sans-serif;
 -webkit-box-shadow:inset 0 1px 3px rgba(0,0,0,.05),0 1px 0 #fff;box-shadow:inset 0 1px 3px rgba(0,0,0,.1),0 1px 0 #fff;
 font-size: 13px;line-height: 20px;
+box-sizing:border-box;
 }
 
 #maxui-search-toggle {float:left;}
@@ -267,7 +341,7 @@ font-size: 13px;line-height: 20px;
 	.maxui-avatar img {float: left;	}
 	.maxui-comments .maxui-avatar {margin-top:5px; position: absolute;left: -41px; top:0;}
 
-#maxui-search a img {width:14px; height:8px; background: url('++resource++maxcomm.png') 2px -60px no-repeat; margin:8px 5px 0; opacity:.8;  filter: alpha(opacity=80);}
+#maxui-search a img {width:14px; height:8px; background: url('/++maxui++static/maxcomm.png') 2px -60px no-repeat; margin:8px 5px 0; opacity:.8;  filter: alpha(opacity=80);}
 #maxui-search.folded a img {background-position: 2px -40px;}
 #maxui-search a img:hover {opacity:1;  filter: alpha(opacity=100);}
 #maxui-search a.maxui-disabled img {background-position: 2px -100px; }
@@ -285,22 +359,76 @@ img { -ms-interpolation-mode: bicubic; image-rendering: optimizeQuality;}
 
 #maxui-container textarea:focus, #maxui-container input[type="search"]:focus {
 	border: 1px solid #4999cb !important;
-	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(0,123,192,.5) !important;
-	-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(0,123,192,.5) !important;
-	box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(0,123,192,.5) !important;
+	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(100,123,192,.5) !important;
+	-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(100,123,192,.5) !important;
+	box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(100,123,192,.5) !important;
  }
+
+ #maxui-container textarea.error:focus {
+	border: 1px solid red !important;
+	-webkit-box-shadow: inset 0 1px 3px rgba(255,0,0,.05),0 0 8px rgba(255,123,192,.5) !important;
+	-moz-box-shadow: inset 0 1px 3px rgba(255,0,0,.05),0 0 8px rgba(255,123,192,.5) !important;
+	box-shadow: inset 0 1px 3px rgba(255,0,0,.05),0 0 8px rgba(255,123,192,.5) !important;
+
+ }
+
 #maxui-container input:focus {
 	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(0,123,192,.5) !important;
 	-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(0,123,192,.5) !important;
 	box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 0 8px rgba(0,123,192,.5) !important;
  }
 
+/*#maxui-mainpanel {
+	overflow: hidden;
+}
+*/
+#maxui-conversations {
+	position:relative;
+}
+
+ #maxui-messages {
+ 	width:400px;
+ 	position:absolute;
+ 	top:0px;
+ 	left:400px;
+ 	background-color: #fff;
+
+ }
+
+.maxui-message {
+position:relative;
+min-height:30px;
+}
+
+
+.maxui-message.user { text-align: right; padding-right: 40px }
+.maxui-message.user .maxui-avatar { right:5px; left:auto; }
+.maxui-message.user .maxui-body { margin-left:80px; }
+.maxui-message.user .maxui-publisheddate { position: absolute; top:0px; left:10px; }
+
+
+.maxui-message.anyone { text-align: left; padding-left:40px; }
+.maxui-message.anyone .maxui-avatar{ left:5px; }
+.maxui-message.anyone .maxui-body{ margin-right:80px }
+.maxui-message.anyone .maxui-publisheddate { position: absolute; top:0px; right:10px; }
+
+.maxui-message .maxui-avatar {top:0px;}
+.maxui-message .maxui-avatar img { width:30px;height:30px; }
+.maxui-message .maxui-publisheddate { font-size: 10px; font-style: italic; color: #888; }
+
+.maxui-message .maxui-body {
+	padding: 5px;
+	-moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px;
+	border:1px solid #ddd;
+	margin-top:5px;
+}
+
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
 	only screen and (-o-min-device-pixel-ratio: 3/2),
 	only screen and (min--moz-device-pixel-ratio: 1.5),
 	only screen and (min-device-pixel-ratio: 1.5) {
 		#maxui-search .obretanca, .maxui-actions a.maxui-commentaction, .maxui-origin
-			{	background-image:url('++resource++maxcomm@2x.png');
+			{	background-image:url('/++maxui++static/maxcomm@2x.png');
 				-moz-background-size: 12px 120px;
 				-o-background-size: 12px 120px;
 				-webkit-background-size: 12px 120px;
@@ -308,3 +436,153 @@ img { -ms-interpolation-mode: bicubic; image-rendering: optimizeQuality;}
 			}
 }
 html { -webkit-text-size-adjust:none; }
+
+.maxui-message-count {
+-moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+background-color: #3A87AD;
+color:white;
+font-size: 10px;
+padding:0px 1px;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+display:inline-block;
+min-width: 17px;
+text-align: center;
+}
+
+/*
+ * CSS Styles that are needed by jScrollPane for it to operate correctly.
+ *
+ * Include this stylesheet in your site or copy and paste the styles below into your stylesheet - jScrollPane
+ * may not operate correctly without them.
+ */
+
+
+.jspContainer
+{
+    overflow: hidden;
+    position: relative;
+}
+
+.jspPane
+{
+    position: absolute;
+}
+
+.jspVerticalBar
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    background: red;
+    width:10px; border-left:1px #eee solid;
+    -webkit-transition: .3s ease-in-out;
+    -moz-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+.jspVerticalBar:hover {
+	width:10px; border-left:1px #bbb solid;
+}
+
+.jspHorizontalBar
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 16px;
+    background: red;
+}
+
+.jspVerticalBar *,
+.jspHorizontalBar *
+{
+    margin: 0;
+    padding: 0;
+}
+
+.jspCap
+{
+    display: none;
+}
+
+.jspHorizontalBar .jspCap
+{
+    float: left;
+}
+
+.jspTrack
+{
+    background: white;
+    position: relative;
+}
+
+.jspVerticalBar:hover .jspDrag{
+	background: #999;
+
+}
+
+.jspDrag {
+    background: #bbb;
+    position: relative;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    -webkit-transition: .1s ease-in-out;
+    -moz-transition: .1s ease-in-out;
+    transition: .1s ease-in-out;
+	margin: 0px 2px;
+    -moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px;
+}
+
+.jspHorizontalBar .jspTrack,
+.jspHorizontalBar .jspDrag
+{
+    float: left;
+    height: 100%;
+}
+
+.jspArrow
+{
+    background: #50506d;
+    text-indent: -20000px;
+    display: block;
+    cursor: pointer;
+}
+
+.jspArrow.jspDisabled
+{
+    cursor: default;
+    background: #80808d;
+}
+
+.jspVerticalBar .jspArrow
+{
+    height: 16px;
+}
+
+.jspHorizontalBar .jspArrow
+{
+    width: 16px;
+    float: left;
+    height: 100%;
+}
+
+.jspVerticalBar .jspArrow:focus
+{
+    outline: none;
+}
+
+.jspCorner
+{
+    background: #eeeef4;
+    float: left;
+    height: 100%;
+}
+
+/* Yuk! CSS Hack for IE6 3 pixel bug :( */
+* html .jspCorner
+{
+    margin: 0 -3px 0 0;
+}
