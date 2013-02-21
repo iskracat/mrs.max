@@ -76,11 +76,14 @@ class maxUserCreator(object):
         maxclient = MaxClient(url=settings.max_server, oauth_server=settings.oauth_server, grant_type=effective_grant_type)
         maxclient.setActor(settings.max_restricted_username)
         maxclient.setToken(settings.max_restricted_token)
-        result = maxclient.addUser(user)
 
-        if not result:
-            logger.error('Error creating MAX user for user: %s' % user)
-        else:
-            logger.error('MAX user created for user: %s' % user)
-            maxclient.setActor(user)
-            maxclient.subscribe(getToolByName(self.context, "portal_url").getPortalObject().absolute_url())
+        try:
+            result = maxclient.addUser(user)
+            if not result:
+                logger.error('Error creating MAX user for user: %s' % user)
+            else:
+                logger.error('MAX user created for user: %s' % user)
+                maxclient.setActor(user)
+                maxclient.subscribe(getToolByName(self.context, "portal_url").getPortalObject().absolute_url())
+        except:
+            logger.error('Could not contact with MAX server.')
