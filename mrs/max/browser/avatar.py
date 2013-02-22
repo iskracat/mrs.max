@@ -31,4 +31,5 @@ class getAvatar(BrowserView):
             self.request.response.addHeader('Content-Type', portrait.content_type)
             return portrait.data
         else:
+            self.request.response.addHeader('Content-Type', portrait.getContentType())
             return portrait._readFile(portrait)

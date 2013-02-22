@@ -66,27 +66,27 @@ class Renderer(base.Renderer):
     render = ViewPageTemplateFile('maxui.pt')
 
 
-class AddForm(base.AddForm):
-    """Portlet add form.
+# class AddForm(base.AddForm):
+#     """Portlet add form.
 
-    This is registered in configure.zcml. The form_fields variable tells
-    zope.formlib which fields to display. The create() method actually
-    constructs the assignment that is being added.
-    """
-    form_fields = form.Fields(IMaxUIPortlet)
+#     This is registered in configure.zcml. The form_fields variable tells
+#     zope.formlib which fields to display. The create() method actually
+#     constructs the assignment that is being added.
+#     """
+#     form_fields = form.Fields(IMaxUIPortlet)
 
-    def create(self, data):
-        return Assignment(**data)
+#     def create(self, data):
+#         return Assignment(**data)
 
 
 # NOTE: If this portlet does not have any configurable parameters, you
 # can use the next AddForm implementation instead of the previous.
 
-# class AddForm(base.NullAddForm):
-#     """Portlet add form.
-#     """
-#     def create(self):
-#         return Assignment()
+class AddForm(base.NullAddForm):
+    """Portlet add form.
+    """
+    def create(self):
+        return Assignment()
 
 
 # NOTE: If this portlet does not have any configurable parameters, you
@@ -94,10 +94,10 @@ class AddForm(base.AddForm):
 # attribute from the <plone:portlet /> registration in configure.zcml
 
 
-class EditForm(base.EditForm):
-    """Portlet edit form.
+# class EditForm(base.EditForm):
+#     """Portlet edit form.
 
-    This is registered with configure.zcml. The form_fields variable tells
-    zope.formlib which fields to display.
-    """
-    form_fields = form.Fields(IMaxUIPortlet)
+#     This is registered with configure.zcml. The form_fields variable tells
+#     zope.formlib which fields to display.
+#     """
+#     form_fields = form.Fields(IMaxUIPortlet)

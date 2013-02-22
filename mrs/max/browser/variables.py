@@ -1,5 +1,6 @@
 from zope.i18n import translate
 from zope.component import queryUtility
+from zope.component.hooks import getSite
 from zope.publisher.browser import BrowserView
 
 from Products.CMFCore.utils import getToolByName
@@ -19,6 +20,7 @@ window._MAXUI.max_server_alias = '%(max_server_alias)s';
 window._MAXUI.avatar_url = '%(avatar_url)s';
 window._MAXUI.profile_url = '%(profile_url)s'
 window._MAXUI.contexts = '%(contexts)s';
+window._MAXUI.activitySource = '%(activitySource)s';
 """
 
 FORM_MODIFIED = _(u'text_form_modified_message',
@@ -36,7 +38,9 @@ class MAXJSVariables(BrowserView):
     def __call__(self, *args, **kwargs):
         context = self.context
         response = self.request.response
-        response.setHeader('content-type', 'text/javascript;;charset=utf-8')
+        portal_url = getSite().absolute_url()
+        response.addHeader('content-type', 'text/javascript;;charset=utf-8')
+        response.addHeader('Cache-Control', 'must-revalidate, max-age=0, no-cache, no-store')
 
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IMAXUISettings, check=False)
@@ -67,7 +71,8 @@ class MAXJSVariables(BrowserView):
             oauth_grant_type=settings.oauth_grant_type,
             max_server=settings.max_server,
             max_server_alias=settings.max_server_alias,
-            avatar_url='%s/avatar/{0}' % (self.context.absolute_url()),
-            profile_url='%s/author/{0}' % (self.context.absolute_url()),
-            contexts=self.context.absolute_url()
+            avatar_url='%s/avatar/{0}' % (portal_url),
+            profile_url='%s/author/{0}' % (portal_url),
+            contexts=self.context.absolute_url(),
+            activitySource='timeline'
         )
