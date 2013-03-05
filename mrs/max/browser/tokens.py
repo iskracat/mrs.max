@@ -7,6 +7,7 @@ from zope.component import queryUtility
 
 from plone.registry.interfaces import IRegistry
 
+from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.statusmessages.interfaces import IStatusMessage
 
@@ -121,3 +122,14 @@ class getAppTokenForm(getTokenForm):
 
         # Redirect back to the front page with a status message
         self.request.response.redirect("{}/{}".format(self.context.absolute_url(), '@@maxui-settings'))
+
+
+class resetMyOauthToken(grok.View):
+    grok.name('resetToken')
+    grok.require('genweb.authenticated')
+    grok.context(ISiteRoot)
+
+    def render(self):
+        pm = getToolByName(self.context, "portal_membership")
+        member = pm.getAuthenticatedMember()
+        member.setMemberProperties({'oauth_token': ''})

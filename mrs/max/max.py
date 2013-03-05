@@ -19,7 +19,7 @@ def getToken(credentials, grant_type=None):
     registry = queryUtility(IRegistry)
     settings = registry.forInterface(IMAXUISettings, check=False)
     # Pick grant type from settings unless passed as optonal argument
-    effective_grant_type = grant_type != None and grant_type or settings.oauth_grant_type
+    effective_grant_type = grant_type is not None and grant_type or settings.oauth_grant_type
 
     ## TODO: Do we need to ask for a token always?
     # r = requests.post(settings.oauth_token_endpoint, data=payload, verify=False)
@@ -41,19 +41,19 @@ class oauthTokenRetriever(object):
         self.context = context
 
     def execute(self, credentials):
-
         user = credentials.get('login')
+        pm = getToolByName(self.context, "portal_membership")
+        member = pm.getMemberById(user)
 
         if user == "admin":
             return
 
-        oauth_token = getToken(credentials)
-
-        pm = getToolByName(self.context, "portal_membership")
-        member = pm.getMemberById(user)
-        member.setMemberProperties({'oauth_token': oauth_token})
-
-        logger.error('oAuth token set for user: %s ' % user)
+        if not member.getProperty('oauth_token', None):
+            oauth_token = getToken(credentials)
+            member.setMemberProperties({'oauth_token': oauth_token})
+            logger.info('oAuth token set for user: %s ' % user)
+        else:
+            return
 
 
 class maxUserCreator(object):
@@ -65,25 +65,33 @@ class maxUserCreator(object):
 
     def execute(self, credentials):
         user = credentials.get('login')
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IMAXUISettings, check=False)
-        # Pick grant type from settings unless passed as optonal argument
-        effective_grant_type = settings.oauth_grant_type
+        pm = getToolByName(self.context, "portal_membership")
+        member = pm.getMemberById(user)
 
         if user == "admin":
             return
 
-        maxclient = MaxClient(url=settings.max_server, oauth_server=settings.oauth_server, grant_type=effective_grant_type)
-        maxclient.setActor(settings.max_restricted_username)
-        maxclient.setToken(settings.max_restricted_token)
+        if not member.getProperty('max_created', None):
+            registry = queryUtility(IRegistry)
+            settings = registry.forInterface(IMAXUISettings, check=False)
+            # Pick grant type from settings unless passed as optonal argument
+            effective_grant_type = settings.oauth_grant_type
 
-        try:
-            result = maxclient.addUser(user)
-            if not result:
-                logger.error('Error creating MAX user for user: %s' % user)
-            else:
-                logger.error('MAX user created for user: %s' % user)
-                maxclient.setActor(user)
-                maxclient.subscribe(getToolByName(self.context, "portal_url").getPortalObject().absolute_url())
-        except:
-            logger.error('Could not contact with MAX server.')
+            maxclient = MaxClient(url=settings.max_server, oauth_server=settings.oauth_server, grant_type=effective_grant_type)
+            maxclient.setActor(settings.max_restricted_username)
+            maxclient.setToken(settings.max_restricted_token)
+
+            try:
+                result = maxclient.addUser(user)
+                if not result:
+                    logger.error('Error creating MAX user for user: %s' % user)
+                else:
+                    member.setMemberProperties({'max_created': True})
+                    logger.info('MAX user created for user: %s' % user)
+                    maxclient.setActor(user)
+                    maxclient.subscribe(getToolByName(self.context, "portal_url").getPortalObject().absolute_url())
+            except:
+                logger.error('Could not contact with MAX server.')
+
+        else:
+            return
