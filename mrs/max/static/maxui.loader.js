@@ -10,7 +10,7 @@
 if (!window._MAXUI) {window._MAXUI = {}; }
 window._MAXUI.onReady = function() {
     // This is called when the code has loaded.
-    settings = {'language' : 'ca',
+    settings = {'language' : _MAXUI.language,
                 'username' : _MAXUI.username,
                 'oAuthToken' : _MAXUI.oauth_token,
                 'maxServerURL' : _MAXUI.max_server,
