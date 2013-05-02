@@ -294,7 +294,7 @@ display:block;
 padding: 0 2px 0 4px;
 opacity:.8; filter: alpha(opacity=80);
 position: relative;
-top: 0px;
+top: 3px;
 }
 #maxui-search-filters .maxui-filter .close img{width:14px; height:15px; margin:0;}
 #maxui-search-filters .maxui-filter .close:hover {opacity:1; filter: alpha(opacity=100);}
