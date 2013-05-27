@@ -22,7 +22,13 @@ window._MAXUI.onReady = function() {
                 'activitySortOrder': 'comments'
                }
 
-    $('#maxui-widget-container').maxUI(settings)
+    intervalID = setInterval(function(event) {
+        if ($().maxUI) {
+            clearInterval(intervalID)
+            $('#maxui-widget-container').maxUI(settings)
+        }
+    }, 30)
+
 };
 
 /*
