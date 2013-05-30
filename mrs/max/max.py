@@ -65,33 +65,30 @@ class maxUserCreator(object):
 
     def execute(self, credentials):
         user = credentials.get('login')
-        pm = getToolByName(self.context, "portal_membership")
-        member = pm.getMemberById(user)
 
         if user == "admin":
             return
 
-        if not member.getProperty('max_created', None):
-            registry = queryUtility(IRegistry)
-            settings = registry.forInterface(IMAXUISettings, check=False)
-            # Pick grant type from settings unless passed as optonal argument
-            effective_grant_type = settings.oauth_grant_type
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IMAXUISettings, check=False)
+        # Pick grant type from settings unless passed as optonal argument
+        effective_grant_type = settings.oauth_grant_type
 
-            maxclient = MaxClient(url=settings.max_server, oauth_server=settings.oauth_server, grant_type=effective_grant_type)
-            maxclient.setActor(settings.max_restricted_username)
-            maxclient.setToken(settings.max_restricted_token)
+        maxclient = MaxClient(url=settings.max_server, oauth_server=settings.oauth_server, grant_type=effective_grant_type)
+        maxclient.setActor(settings.max_restricted_username)
+        maxclient.setToken(settings.max_restricted_token)
 
-            try:
-                result = maxclient.addUser(user)
-                if not result:
-                    logger.error('Error creating MAX user for user: %s' % user)
-                else:
-                    member.setMemberProperties({'max_created': True})
+        try:
+            result = maxclient.addUser(user)
+
+            if result[0]:
+                if result[1] == 201:
                     logger.info('MAX user created for user: %s' % user)
                     maxclient.setActor(user)
                     maxclient.subscribe(getToolByName(self.context, "portal_url").getPortalObject().absolute_url())
-            except:
-                logger.error('Could not contact with MAX server.')
-
-        else:
-            return
+                if result[1] == 200:
+                    logger.info('MAX user already created for user: %s' % user)
+            else:
+                logger.error('Error creating MAX user for user: %s' % user)
+        except:
+            logger.error('Could not contact with MAX server.')
