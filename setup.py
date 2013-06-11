@@ -3,21 +3,21 @@ import os
 
 version = '1.0'
 
+README = open("README.rst").read()
+HISTORY = open(os.path.join("docs", "HISTORY.rst")).read()
+
 setup(name='mrs.max',
       version=version,
       description="MAX UI integration for Plone and related portlets and views.",
-      long_description=open("README.rst").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from
-      # http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      long_description=README + "\n" + HISTORY,
       classifiers=[
-        "Environment :: Web Environment",
-        "Framework :: Plone",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 2.6",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        ],
+          "Environment :: Web Environment",
+          "Framework :: Plone",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 2.6",
+          "Topic :: Software Development :: Libraries :: Python Modules",
+      ],
       keywords='plone max maxui',
       author='UPCnet Plone Team',
       author_email='plone.team@upcnet.es',
@@ -32,6 +32,7 @@ setup(name='mrs.max',
           'pas.plugins.preauth',
           'plone.app.z3cform',
           'plone.directives.form',
+          'maxclient'
       ],
       extras_require={'test': ['plone.app.testing[robot]>=4.2.2']},
       entry_points="""

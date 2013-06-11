@@ -1,6 +1,6 @@
 .. contents::
 
-Introduction
-============
+mrs.max
+=======
 
-adsf
+MAX UI adaptation and integration for Plone.
