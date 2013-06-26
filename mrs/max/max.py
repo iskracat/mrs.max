@@ -48,12 +48,11 @@ class oauthTokenRetriever(object):
         if user == "admin":
             return
 
-        if not member.getProperty('oauth_token', None):
-            oauth_token = getToken(credentials)
-            member.setMemberProperties({'oauth_token': oauth_token})
-            logger.info('oAuth token set for user: %s ' % user)
-        else:
-            return
+        oauth_token = getToken(credentials)
+        member.setMemberProperties({'oauth_token': oauth_token})
+        logger.info('oAuth token set for user: %s ' % user)
+
+        return
 
 
 class maxUserCreator(object):
