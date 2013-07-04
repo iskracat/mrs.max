@@ -10,7 +10,7 @@
   <five:registerPackage package="." initialize=".initialize" />
 
   <includeDependencies package="." />
-  <grok:grok package=".browser" />
+  <grok:grok package="." />
 
   <include package=".browser" />
   <include package=".portlets" />
