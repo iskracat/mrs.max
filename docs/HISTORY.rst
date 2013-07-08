@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2 (unreleased)
+1.2 (2013-07-08)
 ----------------
 
  * Temporarily subscribe always the user to the default context [Victor Fernandez de Alba]
