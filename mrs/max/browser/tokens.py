@@ -4,6 +4,7 @@ from plone.directives import form
 from zope import schema
 from z3c.form import button
 from zope.component import queryUtility
+from zope.component.hooks import getSite
 
 from plone.registry.interfaces import IRegistry
 
@@ -21,13 +22,13 @@ grok.templatedir('views_templates')
 class ICredentials(form.Schema):
 
     username = schema.TextLine(
-            title=_(u"The username."),
-        )
+        title=_(u"The username."),
+    )
 
     password = schema.Password(
-            title=_(u"Password"),
-            description=_(u"The provided username account password."),
-        )
+        title=_(u"Password"),
+        description=_(u"The provided username account password."),
+    )
 
 
 class getTokenForm(form.SchemaForm):
@@ -63,10 +64,6 @@ class getRestrictedTokenForm(getTokenForm):
             self.status = self.formErrorsMessage
             return
 
-        # Handle order here. For now, just print it to the console. A more
-        # realistic action would be to send the order to another system, send
-        # an email, or similar
-
         username = data['username']
         password = data['password']
 
@@ -82,6 +79,16 @@ class getRestrictedTokenForm(getTokenForm):
             IStatusMessage(self.request).addStatusMessage(
                 error,
                 "error")
+
+        # Add context for this site MAX server with the restricted token
+        portal = getSite()
+        portal_permissions = dict(read='subscribed', write='subscribed', subscribe='restricted')
+        maxclient.setActor(self.maxui_settings.max_restricted_username)
+        maxclient.setToken(self.maxui_settings.max_restricted_token)
+        maxclient.addContext(portal.absolute_url(),
+                             portal.title,
+                             portal_permissions
+                             )
 
         # Redirect back to the front page with a status message
         self.request.response.redirect("{}/{}".format(self.context.absolute_url(), '@@maxui-settings'))
