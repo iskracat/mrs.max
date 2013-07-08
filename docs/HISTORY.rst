@@ -4,8 +4,12 @@ Changelog
 1.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+ * Temporarily subscribe always the user to the default context [Victor Fernandez de Alba]
+ * Added the creation of the context at the moment of introduction of the restricted user. [Victor Fernandez de Alba]
+ * Transfer the MAX updater for user's profile subscriber to this package. [Victor Fernandez de Alba]
+ * Add new data to user's profile, enable subscriber to update user's profile data to MAX server. [Victor Fernandez de Alba]
+ * Fix the load of the reosurce. [Victor Fernandez de Alba]
+ * Not to save forever the user token [Victor Fernandez de Alba]
 
 1.1 (2013-06-19)
 ----------------
