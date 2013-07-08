@@ -80,6 +80,10 @@ class maxUserCreator(object):
         try:
             result = maxclient.addUser(user)
 
+            # Temporarily subscribe always the user to the default context
+            maxclient.setActor(user)
+            maxclient.subscribe(getToolByName(self.context, "portal_url").getPortalObject().absolute_url())
+
             if result[0]:
                 if result[1] == 201:
                     logger.info('MAX user created for user: %s' % user)
