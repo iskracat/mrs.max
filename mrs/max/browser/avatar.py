@@ -28,8 +28,11 @@ class getAvatar(BrowserView):
         pm = getToolByName(self, 'portal_membership')
         portrait = pm.getPersonalPortrait(self.username)
         if isinstance(portrait, Image):
+            # Return the user's portrait cache at will
             self.request.response.addHeader('Content-Type', portrait.content_type)
             return portrait.data
         else:
+            # Return default image, no caching
             self.request.response.addHeader('Content-Type', portrait.getContentType())
+            self.request.response.addHeader('Cache-Control', 'must-revalidate, max-age=0, no-cache, no-store')
             return portrait._readFile(portrait)
