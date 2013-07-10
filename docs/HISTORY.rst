@@ -1,11 +1,10 @@
 Changelog
 =========
 
-1.3 (unreleased)
+1.3 (2013-07-10)
 ----------------
 
-- Nothing changed yet.
-
+ * Added cache headers to the default avatar [Victor Fernandez de Alba]
 
 1.2 (2013-07-08)
 ----------------
