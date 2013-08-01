@@ -1,3 +1,5 @@
+from five import grok
+from zope.interface import Interface
 from Products.CMFCore.utils import getToolByName
 from pas.plugins.preauth.interfaces import IPreauthTask, IPreauthHelper
 from plone.registry.interfaces import IRegistry
@@ -12,6 +14,19 @@ import logging
 
 logger = logging.getLogger('mrs.max')
 
+
+class IMAXClient(Interface):
+    """ Marker for MaxClient global utility """
+
+class max_client_utility(object):
+    grok.implements(IMAXClient)
+
+    def __call__(self):
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IMAXUISettings, check=False)
+        return (settings, MaxClient(url=settings.max_server, oauth_server=settings.oauth_server, grant_type=settings.oauth_grant_type))
+
+grok.global_utility(en_GB, provides=ILanguage, name="en_GB", direct=True)
 
 def getToken(credentials, grant_type=None):
     user = credentials.get('login')
