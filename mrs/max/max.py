@@ -19,6 +19,9 @@ class IMAXClient(Interface):
     """ Marker for MaxClient global utility """
 
 class max_client_utility(object):
+    """ The utility will return a tuple with the settins and an instance of a
+        MaxClient object
+    """
     grok.implements(IMAXClient)
 
     def __call__(self):
@@ -26,7 +29,8 @@ class max_client_utility(object):
         settings = registry.forInterface(IMAXUISettings, check=False)
         return (settings, MaxClient(url=settings.max_server, oauth_server=settings.oauth_server, grant_type=settings.oauth_grant_type))
 
-grok.global_utility(en_GB, provides=ILanguage, name="en_GB", direct=True)
+grok.global_utility(max_client_utility)
+
 
 def getToken(credentials, grant_type=None):
     user = credentials.get('login')
