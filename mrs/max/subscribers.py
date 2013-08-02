@@ -34,7 +34,7 @@ def updateMAXUserInfo(event):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IMAXUISettings, check=False)
         effective_grant_type = settings.oauth_grant_type
-        oauth_token = memberdata.getProperty('oauth_token', None)
+        oauth_token = memberdata.getProperty('oauth_token', '')
 
         maxclient = MaxClient(url=settings.max_server, oauth_server=settings.oauth_server, grant_type=effective_grant_type)
         maxclient.setActor(username)
