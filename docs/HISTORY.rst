@@ -1,11 +1,11 @@
 Changelog
 =========
 
-1.4 (unreleased)
+1.4 (2013-08-02)
 ----------------
 
-- Nothing changed yet.
-
+ * Transferred portrait modifications here, rename module name to auth, new IMAXClient utility. [Victor Fernandez de Alba]
+ * Finish implementation of maxclient utility [Victor Fernandez de Alba]
 
 1.3 (2013-07-10)
 ----------------
