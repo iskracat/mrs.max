@@ -3,6 +3,6 @@
     "js_location": "./static/max.ui.js", 
     "github_url": "https://github.com/UPCnet/max.ui.js", 
     "images_url": "/++maxui++static", 
-    "branch": "fucktotalitems", 
+    "branch": "develop", 
     "css_location": "./static/max.ui.css"
 }
