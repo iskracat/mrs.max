@@ -1,11 +1,10 @@
 Changelog
 =========
 
-1.5 (unreleased)
+1.5 (2013-09-13)
 ----------------
 
-- Nothing changed yet.
-
+ * Updated UI to MAX 3.5 [Victor Fernandez de Alba]
 
 1.4 (2013-08-02)
 ----------------
