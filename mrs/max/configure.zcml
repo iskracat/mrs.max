@@ -9,6 +9,7 @@
     i18n_domain="mrs.max">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <i18n:registerTranslations directory="locales" />
 
   <includeDependencies package="." />
   <grok:grok package="." />
