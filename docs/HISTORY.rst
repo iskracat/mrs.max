@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.6 (unreleased)
+1.6 (2013-10-01)
 ----------------
 
 * Override portrait user information [Victor Fernandez de Alba]
