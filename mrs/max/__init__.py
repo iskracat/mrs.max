@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.i18nmessageid import MessageFactory
-MRSMAXMessageFactory = MessageFactory('mrs.max')
+MRSMAXMessageFactory = MessageFactory('mrsmax')
 
 
 def initialize(context):

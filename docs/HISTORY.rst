@@ -1,16 +1,20 @@
 Changelog
 =========
 
-1.6 (unreleased)
+1.7 (unreleased)
 ----------------
 
 - Nothing changed yet.
 
+1.6 (2013-10-01)
+----------------
+
+* Override portrait user information [Victor Fernandez de Alba]
 
 1.5 (2013-09-13)
 ----------------
 
- * Updated UI to MAX 3.5 [Victor Fernandez de Alba]
+* Updated UI to MAX 3.5 [Victor Fernandez de Alba]
 
 1.4 (2013-08-02)
 ----------------
