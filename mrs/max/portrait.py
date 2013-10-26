@@ -8,6 +8,9 @@ from Products.CMFCore.permissions import ManageUsers
 
 from mrs.max.utilities import IMAXClient
 
+from PIL import Image as PILImage
+from cStringIO import StringIO
+
 
 def changeMemberPortrait(self, portrait, id=None):
     """update the portait of a member.
@@ -30,7 +33,8 @@ def changeMemberPortrait(self, portrait, id=None):
         if not _checkPermission(ManageUsers, self):
             raise Unauthorized
     if portrait and portrait.filename:
-        scaled, mimetype = scale_image(portrait, max_size=(176, 176))
+        #scaled, mimetype = scale_image(portrait, max_size=(250, 250))
+        scaled, mimetype = convertSquareImage(portrait)
         portrait = Image(id=safe_id, file=scaled, title='')
         membertool = getToolByName(self, 'portal_memberdata')
         membertool._setPortrait(portrait, safe_id)
@@ -44,3 +48,19 @@ def changeMemberPortrait(self, portrait, id=None):
         maxclient.setActor(authenticated_id)
         maxclient.setToken(oauth_token)
         maxclient.postAvatar(authenticated_id, scaled)
+
+
+def convertSquareImage(image_file):
+    image = PILImage.open(image_file)
+    format = image.format
+    mimetype = 'image/%s' % format.lower()
+
+    if image.size[0] > 250 or image.size[1] > 250:
+        image.thumbnail((250, 9800), PILImage.ANTIALIAS)
+        image = image.transform((250, 250), PILImage.EXTENT, (0, 0, 250, 250), PILImage.BICUBIC)
+
+    new_file = StringIO()
+    image.save(new_file, format, quality=88)
+    new_file.seek(0)
+
+    return new_file, mimetype
