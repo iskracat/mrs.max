@@ -1,11 +1,16 @@
 Changelog
 =========
 
-1.7 (unreleased)
+1.7 (2013-10-28)
 ----------------
 
-- Nothing changed yet.
-
+* New setupmaxui and upgrade to 3.5.2 [Victor Fernandez de Alba]
+* Update the dimensions for the portrait and added a crop to make the photo square. [Victor Fernandez de Alba]
+* Merge branch 'master' into develop [Victor Fernandez de Alba]
+*  [Victor Fernandez de Alba]
+* Conflicts: [Victor Fernandez de Alba]
+* docs/HISTORY.rst [Victor Fernandez de Alba]
+* setup.py [Victor Fernandez de Alba]
 1.6 (2013-10-01)
 ----------------
 
