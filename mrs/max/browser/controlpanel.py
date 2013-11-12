@@ -23,6 +23,7 @@ DEFAULT_OAUTH_TOKEN_ENDPOINT = u'https://oauth.upc.edu'
 DEFAULT_OAUTH_GRANT_TYPE = u'password'
 DEFAULT_MAX_SERVER = u'https://max.upc.edu'
 DEFAULT_MAX_APP_USERNAME = u'appusername'
+DEFAULT_MAX_RESTRICTED_USERNAME = u'restricted'
 
 
 class IMAXUISettings(form.Schema):
@@ -85,6 +86,7 @@ class IMAXUISettings(form.Schema):
         description=_(u'help_max_restricted_username',
                         default=u"Please, specify the MAX restricted username."),
         required=False,
+        default=DEFAULT_MAX_RESTRICTED_USERNAME
         )
 
     form.mode(max_restricted_token='hidden')
