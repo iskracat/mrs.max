@@ -29,6 +29,7 @@ setup(name='mrs.max',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'requests',
           'pas.plugins.preauth',
           'plone.app.z3cform',
           'plone.directives.form',
