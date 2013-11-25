@@ -1,11 +1,12 @@
 Changelog
 =========
 
-1.8 (unreleased)
+1.8 (2013-11-25)
 ----------------
 
-- Nothing changed yet.
-
+* Update to widget version 3.5.5 [Victor Fernandez de Alba]
+* Include requests in the requires [Victor Fernandez de Alba]
+* Update control panel [Victor Fernandez de Alba]
 
 1.7 (2013-10-28)
 ----------------
