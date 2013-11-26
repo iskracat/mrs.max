@@ -1,4 +1,5 @@
 from five import grok
+from zope.component import getUtility
 from zope.component import queryUtility
 from zope.component.hooks import getSite
 
@@ -6,9 +7,17 @@ from plone.registry.interfaces import IRegistry
 from plone.app.controlpanel.interfaces import IConfigurationChangedEvent
 
 from Products.CMFCore.utils import getToolByName
+from Products.PluggableAuthService.interfaces.authservice import IPropertiedUser
+from Products.PluggableAuthService.interfaces.events \
+    import IPrincipalCreatedEvent
 
 from maxclient import MaxClient
+from mrs.max.utilities import IMAXClient
 from mrs.max.browser.controlpanel import IMAXUISettings
+
+import logging
+
+logger = logging.getLogger('mrs.max')
 
 
 @grok.subscribe(IConfigurationChangedEvent)
@@ -41,3 +50,27 @@ def updateMAXUserInfo(event):
         maxclient.setToken(oauth_token)
 
         maxclient.modifyUser(username, properties)
+
+
+@grok.subscribe(IPropertiedUser, IPrincipalCreatedEvent)
+def createMAXUser(principal, event):
+    """This subscriber will trigger when a user is created."""
+
+    maxclient, settings = getUtility(IMAXClient)()
+    maxclient.setActor(settings.max_restricted_username)
+    maxclient.setToken(settings.max_restricted_token)
+
+    user = principal.getId()
+
+    try:
+        result = maxclient.addUser(user)
+
+        if result[0]:
+            if result[1] == 201:
+                logger.info('MAX user created for user: %s' % user)
+            if result[1] == 200:
+                logger.info('MAX user already created for user: %s' % user)
+        else:
+            logger.error('Error creating MAX user for user: %s' % user)
+    except:
+        logger.error('Could not contact with MAX server.')
