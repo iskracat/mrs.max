@@ -1,11 +1,10 @@
 Changelog
 =========
 
-1.9 (unreleased)
+1.9 (2013-11-26)
 ----------------
 
-- Nothing changed yet.
-
+* Added add user subs [Victor Fernandez de Alba]
 
 1.8 (2013-11-25)
 ----------------
