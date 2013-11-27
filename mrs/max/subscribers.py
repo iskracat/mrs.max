@@ -52,6 +52,15 @@ def updateMAXUserInfo(event):
         maxclient.modifyUser(username, properties)
 
 
+@grok.subscribe(IConfigurationChangedEvent)
+def updateOauthServerOnOsirisPASPlugin(event):
+    """This subscriber will trigger when an admin updates the MAX settings."""
+
+    if 'oauth_server' in event.data:
+        portal = getSite()
+        portal.acl_users.pasosiris.oauth_server = event.data['oauth_server']
+
+
 @grok.subscribe(IPropertiedUser, IPrincipalCreatedEvent)
 def createMAXUser(principal, event):
     """This subscriber will trigger when a user is created."""

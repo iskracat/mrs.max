@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from zope import schema
 from z3c.form import button
+from zope.event import notify
 from zope.interface import Interface
 from zope.component import queryUtility
+
+from plone.app.controlpanel.events import ConfigurationChangedEvent
 
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
@@ -121,7 +124,11 @@ class MAXUISettingsEditForm(controlpanel.RegistryEditForm):
         if errors:
             self.status = self.formErrorsMessage
             return
+
         changes = self.applyChanges(data)
+
+        notify(ConfigurationChangedEvent(self, data))
+
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
                                                       "info")
         self.context.REQUEST.RESPONSE.redirect("@@maxui-settings")
