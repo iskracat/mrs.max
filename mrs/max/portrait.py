@@ -28,6 +28,12 @@ def changeMemberPortrait(self, portrait, id=None):
     if not id:
         id = authenticated_id
     safe_id = self._getSafeMemberId(id)
+
+    # dexterity.membrane hand the current user id in unicode, but BTree can't
+    # handle unicode keys in inner objects... *sigh*
+    if isinstance(safe_id, unicode):
+        safe_id = str(safe_id)
+
     if authenticated_id and id != authenticated_id:
         # Only Managers can change portraits of others.
         if not _checkPermission(ManageUsers, self):
