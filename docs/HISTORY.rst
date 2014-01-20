@@ -1,11 +1,13 @@
 Changelog
 =========
 
-1.10 (unreleased)
------------------
+3.6 (2014-01-20)
+----------------
 
-- Nothing changed yet.
-
+* Re-Updated to 3.6 [Victor Fernandez de Alba]
+* Updated to MAXUI 3.6 [Victor Fernandez de Alba]
+* Fix the unhandling of the BTree unicode keys for dexterity.membrane usernames. [Victor Fernandez de Alba]
+* Update Osiris PAS plugin on oauth server change. [Victor Fernandez de Alba]
 
 1.9 (2013-11-26)
 ----------------
