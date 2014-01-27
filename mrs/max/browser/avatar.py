@@ -3,6 +3,8 @@ from OFS.Image import Image
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse, NotFound
 
+from plone.namedfile.utils import set_headers, stream_data
+
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
@@ -27,10 +29,13 @@ class getAvatar(BrowserView):
     def __call__(self):
         pm = getToolByName(self, 'portal_membership')
         portrait = pm.getPersonalPortrait(self.username)
+
         if isinstance(portrait, Image):
             # Return the user's portrait cache at will
             self.request.response.addHeader('Content-Type', portrait.content_type)
-            return portrait.data
+            self.request.response.addHeader('X-Theme-Disabled', '1')
+            set_headers(portrait, self.request.response, filename=self.username)
+            return stream_data(portrait)
         else:
             # Return default image, no caching
             self.request.response.addHeader('Content-Type', portrait.getContentType())
