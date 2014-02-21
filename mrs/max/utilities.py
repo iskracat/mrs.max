@@ -15,6 +15,7 @@ logger = logging.getLogger('mrs.max')
 class IMAXClient(Interface):
     """ Marker for MaxClient global utility """
 
+
 class max_client_utility(object):
     """ The utility will return a tuple with the settins and an instance of a
         MaxClient object
