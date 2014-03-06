@@ -53,7 +53,7 @@ def changeMemberPortrait(self, portrait, id=None):
         maxclient, settings = getUtility(IMAXClient)()
         maxclient.setActor(authenticated_id)
         maxclient.setToken(oauth_token)
-        maxclient.postAvatar(authenticated_id, scaled)
+        maxclient.people[authenticated_id].avatar.post(upload_file=scaled)
 
 
 def convertSquareImage(image_file):

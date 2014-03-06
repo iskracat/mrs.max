@@ -72,7 +72,7 @@ def createMAXUser(principal, event):
     user = principal.getId()
 
     try:
-        result = maxclient.addUser(user)
+        result = maxclient.people[user].post()
 
         if result[0]:
             if result[1] == 201:
