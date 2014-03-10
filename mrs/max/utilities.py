@@ -6,6 +6,8 @@ from zope.component import queryUtility
 from maxclient.rest import MaxClient
 from mrs.max.browser.controlpanel import IMAXUISettings
 
+import plone.api
+
 import logging
 
 logger = logging.getLogger('mrs.max')
@@ -28,3 +30,8 @@ class max_client_utility(object):
                 settings)
 
 grok.global_utility(max_client_utility)
+
+
+def set_user_oauth_token(user, token):
+    member = plone.api.user.get(username=user)
+    member.setMemberProperties({'oauth_token': token})
