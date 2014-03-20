@@ -3,18 +3,15 @@ from plone.directives import form
 
 from zope import schema
 from z3c.form import button
-from zope.component import queryUtility
+from zope.component import getUtility
 from zope.component.hooks import getSite
-
-from plone.registry.interfaces import IRegistry
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.statusmessages.interfaces import IStatusMessage
 
 from mrs.max import MRSMAXMessageFactory as _
-from maxclient import MaxClient
-from mrs.max.browser.controlpanel import IMAXUISettings
+from mrs.max.utilities import set_user_oauth_token, IMAXClient
 
 grok.templatedir('views_templates')
 
@@ -22,42 +19,36 @@ grok.templatedir('views_templates')
 class ICredentials(form.Schema):
 
     username = schema.TextLine(
-        title=_(u"The username."),
+        title=_(u'The username.'),
     )
 
     password = schema.Password(
-        title=_(u"Password"),
-        description=_(u"The provided username account password."),
+        title=_(u'Password'),
+        description=_(u'The provided username account password.'),
     )
 
 
-class getTokenForm(form.SchemaForm):
-    grok.baseclass()
-
-    schema = ICredentials
-    ignoreContext = True
-
-    label = _(u"Get a valid token")
-    description = _(u"Give the credentials of a valid account.")
-
-    def update(self):
-        # disable Plone's editable border
-        self.request.set('disable_border', True)
-
-        registry = queryUtility(IRegistry)
-        self.maxui_settings = registry.forInterface(IMAXUISettings)
-
-        # call the base class version - this is very important!
-        super(getTokenForm, self).update()
-
-
-class getRestrictedTokenForm(getTokenForm):
+class getRestrictedTokenForm(form.SchemaForm):
     grok.name('getRestrictedToken')
     grok.require('cmf.ManagePortal')
     grok.template('gettokenform')
     grok.context(ISiteRoot)
 
-    @button.buttonAndHandler(_(u'Get token'))
+    schema = ICredentials
+    ignoreContext = True
+
+    label = _(u'Get a valid token')
+    description = _(u'Give the credentials of a valid account.')
+
+    def update(self):
+        # call the base class version - this is very important!
+        super(getRestrictedTokenForm, self).update()
+
+        # disable Plone's editable border
+        self.request.set('disable_border', True)
+        self.actions['get_token'].addClass('context')
+
+    @button.buttonAndHandler(_(u'Get token'), name='get_token')
     def handleApply(self, action):
         data, errors = self.extractData()
         if errors:
@@ -67,68 +58,51 @@ class getRestrictedTokenForm(getTokenForm):
         username = data['username']
         password = data['password']
 
-        maxclient = MaxClient(self.maxui_settings.max_server, self.maxui_settings.oauth_server)
-        self.maxui_settings.max_restricted_username = username
+        maxclient, settings = getUtility(IMAXClient)()
+
+        settings.max_restricted_username = username
 
         try:
-            self.maxui_settings.max_restricted_token = maxclient.getToken(username, password)
+            settings.max_restricted_token = maxclient.getToken(username, password)
             IStatusMessage(self.request).addStatusMessage(
-                "Restricted token issued for user: {}".format(username),
-                "info")
+                'Restricted token issued for user: {}'.format(username),
+                'info')
         except AttributeError, error:
             IStatusMessage(self.request).addStatusMessage(
                 error,
-                "error")
+                'Username or password invalid.')
 
         # Add context for this site MAX server with the restricted token
         portal = getSite()
         portal_permissions = dict(read='subscribed', write='subscribed', subscribe='restricted')
-        maxclient.setActor(self.maxui_settings.max_restricted_username)
-        maxclient.setToken(self.maxui_settings.max_restricted_token)
-        maxclient.addContext(portal.absolute_url(),
-                             portal.title,
-                             portal_permissions
-                             )
+        # maxclient.setActor(self.maxui_settings.max_restricted_username)
+        # maxclient.setToken(self.maxui_settings.max_restricted_token)
+        # maxclient.addContext(portal.absolute_url(),
+        #                      portal.title,
+        #                      portal_permissions
+        #                      )
 
-        # Redirect back to the front page with a status message
-        self.request.response.redirect("{}/{}".format(self.context.absolute_url(), '@@maxui-settings'))
+        context_params = {
+            'url': portal.absolute_url(),
+            'displayName': portal.title,
+            'permissions': portal_permissions
+        }
 
-
-class getAppTokenForm(getTokenForm):
-    grok.name('getAppToken')
-    grok.require('cmf.ManagePortal')
-    grok.template('gettokenform')
-    grok.context(ISiteRoot)
-
-    @button.buttonAndHandler(_(u'Get token'))
-    def handleApply(self, action):
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-
-        # Handle order here. For now, just print it to the console. A more
-        # realistic action would be to send the order to another system, send
-        # an email, or similar
-
-        username = data['username']
-        password = data['password']
-
-        maxclient = MaxClient(self.maxui_settings.max_server, self.maxui_settings.oauth_server)
-        self.maxui_settings.max_app_username = username
+        maxclient.setActor(settings.max_restricted_username)
+        maxclient.setToken(settings.max_restricted_token)
 
         try:
-            self.maxui_settings.max_app_token = maxclient.getToken(username, password)
-            IStatusMessage(self.request).addStatusMessage(
-                "App token issued for user: {}".format(username),
-                "info")
-        except AttributeError, error:
+            maxclient.contexts.post(**context_params)
+        except:
             IStatusMessage(self.request).addStatusMessage(
                 error,
-                "error")
+                'There was an error trying to create the default (portal root) URL into MAX server.')
 
-        # Redirect back to the front page with a status message
-        self.request.response.redirect("{}/{}".format(self.context.absolute_url(), '@@maxui-settings'))
+        # Add the restricted token to the Plone admin user
+        set_user_oauth_token('admin', settings.max_restricted_token)
+
+        # Redirect back with a status message
+        self.request.response.redirect('{}/{}'.format(self.context.absolute_url(), '@@maxui-settings'))
 
 
 class resetMyOauthToken(grok.View):
@@ -137,6 +111,6 @@ class resetMyOauthToken(grok.View):
     grok.context(ISiteRoot)
 
     def render(self):
-        pm = getToolByName(self.context, "portal_membership")
+        pm = getToolByName(self.context, 'portal_membership')
         member = pm.getAuthenticatedMember()
         member.setMemberProperties({'oauth_token': ''})
