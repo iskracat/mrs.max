@@ -1,11 +1,14 @@
 Changelog
 =========
 
-3.6.2 (unreleased)
+3.6.2 (2014-03-24)
 ------------------
 
-- Nothing changed yet.
-
+* Minimize tokens form. [Victor Fernandez de Alba]
+* Helper utilities for tests [Victor Fernandez de Alba]
+* Change the sensible defaults to upcnet.es ones [Victor Fernandez de Alba]
+* Hide unused options [Victor Fernandez de Alba]
+* Migrate to MaxClient RESTish [Victor Fernandez de Alba]
 
 3.6.1 (2014-02-24)
 ------------------
