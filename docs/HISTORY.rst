@@ -1,11 +1,10 @@
 Changelog
 =========
 
-3.6.3 (unreleased)
+3.6.3 (2014-03-25)
 ------------------
 
-- Nothing changed yet.
-
+* Fix use case retrieving token. [Victor Fernandez de Alba]
 
 3.6.2 (2014-03-24)
 ------------------
