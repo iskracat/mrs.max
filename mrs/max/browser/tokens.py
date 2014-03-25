@@ -95,8 +95,7 @@ class getRestrictedTokenForm(form.SchemaForm):
             maxclient.contexts.post(**context_params)
         except:
             IStatusMessage(self.request).addStatusMessage(
-                error,
-                'There was an error trying to create the default (portal root) URL into MAX server.')
+                'There was an error trying to create the default (portal root) URL into MAX server.', 'error')
 
         # Add the restricted token to the Plone admin user
         set_user_oauth_token('admin', settings.max_restricted_token)
