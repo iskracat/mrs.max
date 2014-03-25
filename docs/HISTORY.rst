@@ -1,11 +1,10 @@
 Changelog
 =========
 
-3.6.4 (unreleased)
+3.6.4 (2014-03-25)
 ------------------
 
-- Nothing changed yet.
-
+* Admin user impersonate as restricted user [Victor Fernandez de Alba]
 
 3.6.3 (2014-03-25)
 ------------------
