@@ -14,7 +14,7 @@ logger = logging.getLogger('mrs.max')
 
 
 def getToken(credentials, grant_type=None):
-    user = credentials.get('login')
+    user = credentials.get('login').lower()
     password = credentials.get('password')
     registry = queryUtility(IRegistry)
     settings = registry.forInterface(IMAXUISettings, check=False)
@@ -41,7 +41,7 @@ class oauthTokenRetriever(object):
         self.context = context
 
     def execute(self, credentials):
-        user = credentials.get('login')
+        user = credentials.get('login').lower()
         pm = getToolByName(self.context, "portal_membership")
         member = pm.getMemberById(user)
 
@@ -63,7 +63,7 @@ class maxUserCreator(object):
         self.context = context
 
     def execute(self, credentials):
-        user = credentials.get('login')
+        user = credentials.get('login').lower()
 
         if user == "admin":
             return
