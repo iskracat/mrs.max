@@ -33,7 +33,8 @@ setup(name='mrs.max',
           'pas.plugins.preauth',
           'plone.app.z3cform',
           'plone.directives.form',
-          'maxclient'
+          'maxclient',
+          'plone.api'
       ],
       extras_require={'test': ['plone.app.testing[robot]>=4.2.2']},
       entry_points="""

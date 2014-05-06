@@ -16,6 +16,7 @@ from mrs.max.utilities import IMAXClient
 from mrs.max.browser.controlpanel import IMAXUISettings
 
 import logging
+import plone.api
 
 logger = logging.getLogger('mrs.max')
 
@@ -65,21 +66,26 @@ def updateOauthServerOnOsirisPASPlugin(event):
 def createMAXUser(principal, event):
     """This subscriber will trigger when a user is created."""
 
-    maxclient, settings = getUtility(IMAXClient)()
-    maxclient.setActor(settings.max_restricted_username)
-    maxclient.setToken(settings.max_restricted_token)
+    pid = 'mrs.max'
+    qi_tool = plone.api.portal.get_tool(name='portal_quickinstaller')
+    installed = [p['id'] for p in qi_tool.listInstalledProducts()]
 
-    user = principal.getId()
+    if pid in installed:
+        maxclient, settings = getUtility(IMAXClient)()
+        maxclient.setActor(settings.max_restricted_username)
+        maxclient.setToken(settings.max_restricted_token)
 
-    try:
-        result = maxclient.people[user].post()
+        user = principal.getId()
 
-        if result[0]:
-            if result[1] == 201:
-                logger.info('MAX user created for user: %s' % user)
-            if result[1] == 200:
-                logger.info('MAX user already created for user: %s' % user)
-        else:
-            logger.error('Error creating MAX user for user: %s' % user)
-    except:
-        logger.error('Could not contact with MAX server.')
+        try:
+            result = maxclient.people[user].post()
+
+            if result[0]:
+                if result[1] == 201:
+                    logger.info('MAX user created for user: %s' % user)
+                if result[1] == 200:
+                    logger.info('MAX user already created for user: %s' % user)
+            else:
+                logger.error('Error creating MAX user for user: %s' % user)
+        except:
+            logger.error('Could not contact with MAX server.')
