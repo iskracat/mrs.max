@@ -1,11 +1,13 @@
 Changelog
 =========
 
-3.6.5 (unreleased)
-------------------
+4.0 (2014-05-07)
+----------------
 
-- Nothing changed yet.
-
+* Updated ignores [Victor Fernandez de Alba]
+* Updated and adapted to version 4.0.1 [Victor Fernandez de Alba]
+* Add missing condition on user creation subscriber [Victor Fernandez de Alba]
+* Fix important lower case user on creation and auth [Victor Fernandez de Alba]
 
 3.6.4 (2014-03-25)
 ------------------
