@@ -19,7 +19,8 @@ window._MAXUI.onReady = function() {
                 'readContext' : _MAXUI.contexts,
                 'activitySource': _MAXUI.activitySource,
                 'maxTalkURL': _MAXUI.max_server + '/stomp',
-                'activitySortOrder': 'comments'
+                'activitySortOrder': 'comments',
+                'hidePostboxOnTimeline': _MAXUI.hidePostboxOnTimeline
                }
 
     intervalID = setInterval(function(event) {
@@ -39,7 +40,7 @@ window._MAXUI.onReady = function() {
 */
 
 (function(d){
-var mui_location = '/++maxui++static/max.ui.js'
+var mui_location = '/++maxui++static/max.ui.min.js'
 var mui = d.createElement('script'); mui.type = 'text/javascript'; mui.async = true;
 mui.src = mui_location
 var s = d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mui, s);
