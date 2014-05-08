@@ -6648,6 +6648,7 @@ var views = function() {
 
     MaxConversationsList.prototype.show = function() {
         var self = this;
+        self.mainview.loadWrappers();
         self.mainview.$newparticipants.show();
          // Load conversations from max if never loaded
         if (self.conversations.length === 0) {
