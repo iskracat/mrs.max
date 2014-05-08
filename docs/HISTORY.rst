@@ -1,11 +1,11 @@
 Changelog
 =========
 
-4.1 (unreleased)
-----------------
+4.0.1 (2014-05-08)
+------------------
 
-- Nothing changed yet.
-
+* Update of last minute [Victor Fernandez de Alba]
+* maxuisetup for the record [Victor Fernandez de Alba]
 
 4.0 (2014-05-07)
 ----------------
