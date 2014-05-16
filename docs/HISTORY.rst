@@ -1,11 +1,10 @@
 Changelog
 =========
 
-4.0.6 (unreleased)
+4.0.6 (2014-05-16)
 ------------------
 
-- Nothing changed yet.
-
+* Update to 4.0.5 [Victor Fernandez de Alba]
 
 4.0.5 (2014-05-13)
 ------------------
