@@ -9,6 +9,8 @@ from mrs.max.browser.controlpanel import IMAXUISettings
 import plone.api
 
 import logging
+from pprint import pformat
+import json
 
 logger = logging.getLogger('mrs.max')
 
@@ -35,3 +37,13 @@ grok.global_utility(max_client_utility)
 def set_user_oauth_token(user, token):
     member = plone.api.user.get(username=user)
     member.setMemberProperties({'oauth_token': token})
+
+
+def prettyResponse(response):
+    message = ''
+    try:
+        json_response = json.loads(response)
+        message = pformat(json_response)
+    except:
+        message = response
+    return message

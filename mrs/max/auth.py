@@ -5,8 +5,9 @@ from zope.component import queryUtility
 from zope.interface import implements
 from zope.component import adapts
 
-from maxclient import MaxClient
+from maxclient.rest import MaxClient
 from mrs.max.browser.controlpanel import IMAXUISettings
+from mrs.max.utilities import prettyResponse
 
 import logging
 
@@ -78,20 +79,20 @@ class maxUserCreator(object):
         maxclient.setToken(settings.max_restricted_token)
 
         try:
-            result = maxclient.addUser(user)
+            maxclient.people['user'].post()
 
             # Temporarily subscribe always the user to the default context
             maxclient.setActor(user)
-            maxclient.subscribe(getToolByName(self.context, "portal_url").getPortalObject().absolute_url())
+            portal_url = getToolByName(self.context, "portal_url").getPortalObject().absolute_url()
+            maxclient.people[user].subscriptions.post(object_url=portal_url)
 
-            if result[0]:
-                if result[1] == 201:
-                    logger.info('MAX user created for user: %s' % user)
-                    maxclient.setActor(user)
-                    maxclient.subscribe(getToolByName(self.context, "portal_url").getPortalObject().absolute_url())
-                if result[1] == 200:
-                    logger.info('MAX user already created for user: %s' % user)
+            if maxclient.last_response_code == 201:
+                logger.info('MAX user created for user: %s' % user)
+            elif maxclient.last_response_code == 200:
+                logger.info('MAX user already created for user: {}'.format(user))
             else:
-                logger.error('Error creating MAX user for user: %s' % user)
+                logger.error('Error creating MAX user for user: {}. '.format(user))
+                logger.error(prettyResponse(maxclient.last_response))
         except:
             logger.error('Could not contact with MAX server.')
+            logger.error(prettyResponse(maxclient.last_response))

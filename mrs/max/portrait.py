@@ -46,14 +46,14 @@ def changeMemberPortrait(self, portrait, id=None):
         membertool._setPortrait(portrait, safe_id)
 
         # Update the user's avatar on MAX
-        memberdata = self.getMemberById(authenticated_id)
+        memberdata = self.getMemberById(safe_id)
         oauth_token = memberdata.getProperty('oauth_token', '')
         scaled.seek(0)
 
         maxclient, settings = getUtility(IMAXClient)()
-        maxclient.setActor(authenticated_id)
+        maxclient.setActor(safe_id)
         maxclient.setToken(oauth_token)
-        maxclient.people[authenticated_id].avatar.post(upload_file=scaled)
+        maxclient.people[safe_id].avatar.post(upload_file=scaled)
 
 
 def convertSquareImage(image_file):

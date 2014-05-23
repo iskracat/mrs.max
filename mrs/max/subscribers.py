@@ -11,12 +11,13 @@ from Products.PluggableAuthService.interfaces.authservice import IPropertiedUser
 from Products.PluggableAuthService.interfaces.events \
     import IPrincipalCreatedEvent
 
-from maxclient import MaxClient
-from mrs.max.utilities import IMAXClient
+from maxclient.rest import MaxClient
+from mrs.max.utilities import IMAXClient, prettyResponse
 from mrs.max.browser.controlpanel import IMAXUISettings
 
 import logging
 import plone.api
+
 
 logger = logging.getLogger('mrs.max')
 
@@ -50,7 +51,7 @@ def updateMAXUserInfo(event):
         maxclient.setActor(username)
         maxclient.setToken(oauth_token)
 
-        maxclient.modifyUser(username, properties)
+        maxclient.people[username].put(**properties)
 
 
 @grok.subscribe(IConfigurationChangedEvent)
@@ -78,14 +79,15 @@ def createMAXUser(principal, event):
         user = principal.getId()
 
         try:
-            result = maxclient.people[user].post()
+            maxclient.people[user].post()
 
-            if result[0]:
-                if result[1] == 201:
-                    logger.info('MAX user created for user: %s' % user)
-                if result[1] == 200:
-                    logger.info('MAX user already created for user: %s' % user)
+            if maxclient.last_response_code == 201:
+                logger.info('MAX user created for user: %s' % user)
+            elif maxclient.last_response_code == 200:
+                logger.info('MAX user already created for user: {}'.format(user))
             else:
-                logger.error('Error creating MAX user for user: %s' % user)
+                logger.error('Error creating MAX user for user: {}. '.format(user))
+                logger.error(prettyResponse(maxclient.last_response))
         except:
             logger.error('Could not contact with MAX server.')
+            logger.error(prettyResponse(maxclient.last_response))
