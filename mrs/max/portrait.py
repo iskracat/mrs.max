@@ -8,8 +8,10 @@ from Products.CMFCore.permissions import ManageUsers
 
 from mrs.max.utilities import IMAXClient
 
-from PIL import Image as PILImage
 from cStringIO import StringIO
+from PIL import ImageOps
+
+import PIL
 
 
 def changeMemberPortrait(self, portrait, id=None):
@@ -57,16 +59,19 @@ def changeMemberPortrait(self, portrait, id=None):
 
 
 def convertSquareImage(image_file):
-    image = PILImage.open(image_file)
+    CONVERT_SIZE = (250, 250)
+    image = PIL.Image.open(image_file)
     format = image.format
     mimetype = 'image/%s' % format.lower()
 
-    if image.size[0] > 250 or image.size[1] > 250:
-        image.thumbnail((250, 9800), PILImage.ANTIALIAS)
-        image = image.transform((250, 250), PILImage.EXTENT, (0, 0, 250, 250), PILImage.BICUBIC)
+    # Old way
+    # if image.size[0] > 250 or image.size[1] > 250:
+    #     image.thumbnail((250, 9800), PIL.Image.ANTIALIAS)
+    #     image = image.transform((250, 250), PILImage.EXTENT, (0, 0, 250, 250), PILImage.BICUBIC)
 
+    result = ImageOps.fit(image, CONVERT_SIZE, method=PIL.Image.ANTIALIAS, centering=(0, 0))
     new_file = StringIO()
-    image.save(new_file, format, quality=88)
+    result.save(new_file, format, quality=88)
     new_file.seek(0)
 
     return new_file, mimetype
