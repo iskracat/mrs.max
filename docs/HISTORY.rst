@@ -1,11 +1,13 @@
 Changelog
 =========
 
-4.0.8 (unreleased)
+4.0.8 (2014-05-28)
 ------------------
 
-- Nothing changed yet.
-
+* Better implementation of the squarification of the profile photo [Victor Fernandez de Alba]
+* Migrate old Maxclient to Rest Maxclient [Carles Bruguera]
+* Method to pretty print error responses [Carles Bruguera]
+* Fix portrait creation when specifying user id [Carles Bruguera]
 
 4.0.7 (2014-05-22)
 ------------------
