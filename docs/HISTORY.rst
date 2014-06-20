@@ -1,11 +1,10 @@
 Changelog
 =========
 
-4.0.9 (unreleased)
+4.0.9 (2014-06-20)
 ------------------
 
-- Nothing changed yet.
-
+* Update mrs max way of doing things and fix a major error when creating user on MAX [Victor Fernandez de Alba]
 
 4.0.8 (2014-05-28)
 ------------------
