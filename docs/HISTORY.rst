@@ -1,11 +1,10 @@
 Changelog
 =========
 
-4.0.10 (unreleased)
+4.0.10 (2014-06-25)
 -------------------
 
-- Nothing changed yet.
-
+* Fix CSS for fonts [Victor Fernandez de Alba]
 
 4.0.9 (2014-06-20)
 ------------------
