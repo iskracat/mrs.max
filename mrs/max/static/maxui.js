@@ -9167,7 +9167,7 @@ MaxClient.prototype.unlikeActivity = function(activityid, callback) {
     jq.fn.maxUI = function(options) {
         // Keep a reference of the context object
         var maxui = this;
-        maxui.version = '4.0.8';
+        maxui.version = '4.0.9';
         maxui.templates = max.templates();
         maxui.utils = max.utils();
         var defaults = {
@@ -9940,7 +9940,7 @@ MaxClient.prototype.unlikeActivity = function(activityid, callback) {
             event.preventDefault();
             event.stopPropagation();
             var text = jq(this).val();
-            var button = jq(this).parent().find('.maxui-button');
+            var button = jq(this).closest('#maxui-newactivity-box').find('.maxui-button');
             var normalized = maxui.utils.normalizeWhiteSpace(text, false);
             if (normalized === '' && !options.ignore_button) {
                 jq(button).attr('disabled', 'disabled');
