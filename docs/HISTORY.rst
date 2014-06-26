@@ -1,11 +1,13 @@
 Changelog
 =========
 
-4.0.12 (unreleased)
+4.0.12 (2014-06-26)
 -------------------
 
-- Nothing changed yet.
-
+* Remove unused script on root [Carles Bruguera]
+* Updated maxui setup script [Carles Bruguera]
+* Add real minified version of maxui.js [Carles Bruguera]
+* Add original source for jsmap [Carles Bruguera]
 
 4.0.11 (2014-06-25)
 -------------------
