@@ -1,11 +1,11 @@
 Changelog
 =========
 
-4.0.14 (unreleased)
+4.0.14 (2014-06-27)
 -------------------
 
-- Nothing changed yet.
-
+* Fixes for IE [Victor Fernandez de Alba]
+* Ooops [Carles Bruguera]
 
 4.0.13 (2014-06-26)
 -------------------
