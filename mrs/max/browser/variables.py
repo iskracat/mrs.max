@@ -21,6 +21,8 @@ window._MAXUI.contexts = '%(contexts)s';
 window._MAXUI.activitySource = '%(activitySource)s';
 window._MAXUI.language = '%(language)s';
 window._MAXUI.hidePostboxOnTimeline = true;
+window._MAXUI.domain = '%(max_domain)s';
+window._MAXUI.maxTalkURL = '%(max_talk_url)s';
 """
 
 
@@ -64,5 +66,7 @@ class MAXJSVariables(BrowserView):
             profile_url='%s/author/{0}' % (portal_url),
             contexts=self.context.absolute_url(),
             activitySource='timeline',
-            language=default_lang
+            language=default_lang,
+            max_domain=settings.max_domain,
+            max_talk_url=settings.max_talk_url
         )

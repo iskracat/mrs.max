@@ -96,6 +96,22 @@ class IMAXUISettings(form.Schema):
         required=False,
     )
 
+    max_domain = schema.TextLine(
+        title=_(u'label_max_domain', default=u'MAX domain'),
+        description=_(u'help_max_restricted_username',
+                      default=u"Please, specify the MAX domain for this site (only for legacy IE)."),
+        required=False,
+        default=u''
+    )
+
+    max_talk_url = schema.TextLine(
+        title=_(u'label_max_talk_url', default=u'MAX Talk URL'),
+        description=_(u'help_max_restricted_token',
+                      default=u"Please, specify the MAX Talk STOMP URL (only for legacy IE)."),
+        required=False,
+        default=u''
+    )
+
 
 class MAXUISettingsEditForm(controlpanel.RegistryEditForm):
     """MAXUI settings form.
