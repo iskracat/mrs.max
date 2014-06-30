@@ -18,7 +18,7 @@ window._MAXUI.onReady = function() {
                 'avatarURLpattern' : _MAXUI.avatar_url,
                 'readContext' : _MAXUI.contexts,
                 'activitySource': _MAXUI.activitySource,
-                'maxTalkURL': _MAXUI.max_server + '/stomp',
+                'domain': _MAXUI.domain,
                 'activitySortOrder': 'comments',
                 'hidePostboxOnTimeline': _MAXUI.hidePostboxOnTimeline
                }
