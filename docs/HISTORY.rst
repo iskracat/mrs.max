@@ -1,11 +1,10 @@
 Changelog
 =========
 
-4.0.15 (unreleased)
+4.0.15 (2014-06-30)
 -------------------
 
-- Nothing changed yet.
-
+* New options for specify the domain and MAX STOMP URL [Victor Fernandez de Alba]
 
 4.0.14 (2014-06-27)
 -------------------
