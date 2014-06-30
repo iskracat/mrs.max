@@ -1,11 +1,10 @@
 Changelog
 =========
 
-4.0.17 (unreleased)
+4.0.17 (2014-06-30)
 -------------------
 
-- Nothing changed yet.
-
+* Add domain to loader and get rid of maxTalkURL [Carles Bruguera]
 
 4.0.16 (2014-06-30)
 -------------------
