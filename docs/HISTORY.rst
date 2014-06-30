@@ -11,6 +11,7 @@ Changelog
 -------------------
 
 * New options for specify the domain and MAX STOMP URL [Victor Fernandez de Alba]
+* New widget with IE8 Fixes [Carles Bruguera]
 
 4.0.14 (2014-06-27)
 -------------------
