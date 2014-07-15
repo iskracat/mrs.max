@@ -1,11 +1,11 @@
 Changelog
 =========
 
-4.0.19 (unreleased)
+4.0.19 (2014-07-15)
 -------------------
 
-- Nothing changed yet.
-
+* Image retrieving from MAX directly [Victor Fernandez de Alba]
+* New helper view for search into the search user WS [Victor Fernandez de Alba]
 
 4.0.18 (2014-07-08)
 -------------------
