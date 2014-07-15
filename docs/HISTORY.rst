@@ -1,11 +1,10 @@
 Changelog
 =========
 
-4.0.20 (unreleased)
+4.0.20 (2014-07-15)
 -------------------
 
-- Nothing changed yet.
-
+* Disable unneeded subscription of user to the default context for every community. [Victor Fernandez de Alba]
 
 4.0.19 (2014-07-15)
 -------------------
