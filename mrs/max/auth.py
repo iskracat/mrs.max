@@ -79,9 +79,11 @@ class maxUserCreator(object):
                 logger.error(prettyResponse(maxclient.last_response))
 
             # Temporarily subscribe always the user to the default context
-            maxclient.setActor(user)
-            portal_url = api.portal.get().absolute_url()
-            maxclient.people[user].subscriptions.post(object_url=portal_url)
+            # July2014 - Victor: Disable automatic subscription to the default
+            # context as it was proven to not be used anymore.
+            # maxclient.setActor(user)
+            # portal_url = api.portal.get().absolute_url()
+            # maxclient.people[user].subscriptions.post(object_url=portal_url)
 
         except:
             logger.error('Could not contact with MAX server.')
