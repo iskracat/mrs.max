@@ -1,11 +1,10 @@
 Changelog
 =========
 
-4.0.21 (unreleased)
+4.0.21 (2014-07-16)
 -------------------
 
-- Nothing changed yet.
-
+* New widget version with several fixes [Victor Fernandez de Alba]
 
 4.0.20 (2014-07-15)
 -------------------
