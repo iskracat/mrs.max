@@ -9178,7 +9178,7 @@ MaxClient.prototype.unlikeActivity = function(activityid, callback) {
     jq.fn.maxUI = function(options) {
         // Keep a reference of the context object
         var maxui = this;
-        maxui.version = '4.0.13';
+        maxui.version = '4.0.14';
         maxui.templates = max.templates();
         maxui.utils = max.utils();
         var defaults = {
@@ -9220,11 +9220,17 @@ MaxClient.prototype.unlikeActivity = function(activityid, callback) {
         }
 
         // Normalize maxTalkURL and provide sensible default for stomp server
-        // The base url for stomp url construction is basef on the max url AFTER
+        // The base url for stomp url construction is based on the max url AFTER
         // checking for CORS avalability
         maxui.settings.maxTalkURL = maxui.utils.normalizeWhiteSpace(maxui.settings.maxTalkURL);
         if (_.isUndefined(maxui.settings.maxTalkURL) || maxui.settings.maxTalkURL === "") {
             maxui.settings.maxTalkURL = maxui.settings.maxServerURL + '/stomp';
+        }
+
+        // Normalize domain if present, to avoid errors with unvalid values and whitespaces
+        maxui.settings.domain = maxui.utils.normalizeWhiteSpace(maxui.settings.domain);
+        if (maxui.settings.domain.toLowerCase() === 'none') {
+            maxui.settings.domain = "";
         }
 
         // Check timeline/activities consistency
