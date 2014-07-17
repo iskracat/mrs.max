@@ -27,7 +27,7 @@ def updateMAXUserInfo(event):
     """This subscriber will trigger when a user change his/her profile data."""
 
     # Only execute if the event triggers on user profile data change
-    if 'fullname' in event.data:
+    if 'fullname' in event.data or 'twitterUsername' in event.data:
         site = getSite()
         pm = getToolByName(site, "portal_membership")
         if pm.isAnonymousUser():  # the user has not logged in
