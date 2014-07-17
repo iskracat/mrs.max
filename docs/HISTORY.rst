@@ -1,11 +1,10 @@
 Changelog
 =========
 
-4.0.22 (unreleased)
+4.0.22 (2014-07-17)
 -------------------
 
-- Nothing changed yet.
-
+* Fix update user info for orgs that doesn't have fullname in its user properties form [Victor Fernandez de Alba]
 
 4.0.21 (2014-07-16)
 -------------------
