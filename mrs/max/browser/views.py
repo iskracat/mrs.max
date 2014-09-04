@@ -1,6 +1,6 @@
 from five import grok
 from plone import api
-
+from hashlib import sha1
 from zope.interface import Interface
 from zope.component import getUtility
 
@@ -33,3 +33,13 @@ class MAXUserSearch(grok.View):
             return json.dumps(results)
         else:
             return json.dumps({"error": "No query found"})
+
+
+class GetMaxHash(grok.View):
+    grok.context(Interface)
+    grok.name('max.hash')
+    grok.require('genweb.authenticated')
+
+    def render(self):
+        url = self.context.absolute_url()
+        return sha1(url).hexdigest()
