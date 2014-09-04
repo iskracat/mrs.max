@@ -1,11 +1,10 @@
 Changelog
 =========
 
-4.0.23 (unreleased)
+4.0.23 (2014-09-04)
 -------------------
 
-- Nothing changed yet.
-
+* Fix controlpanel view. New helper view. [Victor Fernandez de Alba]
 
 4.0.22 (2014-07-17)
 -------------------
