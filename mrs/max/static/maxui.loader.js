@@ -1,4 +1,4 @@
-
+/*global _MAXUI */
 /*
 * Defines a global namespace var to hold maxui stuff, and a function onReady that
 * will be called as a result of the maxui code being completely loaded.
@@ -10,7 +10,7 @@
 if (!window._MAXUI) {window._MAXUI = {}; }
 window._MAXUI.onReady = function() {
     // This is called when the code has loaded.
-    settings = {'language' : _MAXUI.language,
+    var settings = {'language' : _MAXUI.language,
                 'username' : _MAXUI.username,
                 'oAuthToken' : _MAXUI.oauth_token,
                 'maxServerURL' : _MAXUI.max_server,
@@ -20,15 +20,16 @@ window._MAXUI.onReady = function() {
                 'activitySource': _MAXUI.activitySource,
                 'domain': _MAXUI.domain,
                 'activitySortOrder': 'comments',
+                'activitySortView': _MAXUI.activitySortView,
                 'hidePostboxOnTimeline': _MAXUI.hidePostboxOnTimeline
-               }
+               };
 
-    intervalID = setInterval(function(event) {
+    var intervalID = setInterval(function(event) {
         if ($().maxUI) {
-            clearInterval(intervalID)
-            $('#maxui-widget-container').maxUI(settings)
+            clearInterval(intervalID);
+            $('#maxui-widget-container').maxUI(settings);
         }
-    }, 30)
+    }, 30);
 
 };
 
@@ -40,9 +41,9 @@ window._MAXUI.onReady = function() {
 */
 
 (function(d){
-var mui_location = '/++maxui++static/max.ui.min.js'
+var mui_location = '/++maxui++static/max.ui.min.js';
 var mui = d.createElement('script'); mui.type = 'text/javascript'; mui.async = true;
-mui.src = mui_location
+mui.src = mui_location;
 var s = d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mui, s);
 
 }(document));

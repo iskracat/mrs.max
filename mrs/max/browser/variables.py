@@ -19,6 +19,7 @@ window._MAXUI.avatar_url = '%(avatar_url)s';
 window._MAXUI.profile_url = '%(profile_url)s'
 window._MAXUI.contexts = '%(contexts)s';
 window._MAXUI.activitySource = '%(activitySource)s';
+window._MAXUI.activitySortView = '%(activitySortView)s';
 window._MAXUI.language = '%(language)s';
 window._MAXUI.hidePostboxOnTimeline = true;
 window._MAXUI.domain = '%(max_domain)s';
@@ -65,6 +66,7 @@ class MAXJSVariables(BrowserView):
             profile_url='%s/profile/{0}' % (portal_url),
             contexts=self.context.absolute_url(),
             activitySource='timeline',
+            activitySortView=self.context.activity_view,
             language=default_lang,
             max_domain=settings.max_domain
         )
