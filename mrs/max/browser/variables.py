@@ -56,6 +56,11 @@ class MAXJSVariables(BrowserView):
         pl = getToolByName(self.context, "portal_languages")
         default_lang = pl.getDefaultLanguage()
 
+        activity_views_map = {
+            'Darreres activitats': 'recent',
+            'Activitats mes valorades': 'likes',
+            'Activitats destacades': 'flagged'
+        }
         return TEMPLATE % dict(
             username=username,
             oauth_token=oauth_token,
@@ -66,7 +71,7 @@ class MAXJSVariables(BrowserView):
             profile_url='%s/profile/{0}' % (portal_url),
             contexts=self.context.absolute_url(),
             activitySource='timeline',
-            activitySortView=self.context.activity_view,
+            activitySortView=activity_views_map.get(self.context.activity_view, 'recent'),
             language=default_lang,
             max_domain=settings.max_domain
         )
