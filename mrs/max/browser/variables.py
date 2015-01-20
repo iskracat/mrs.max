@@ -7,6 +7,7 @@ from Products.CMFCore.utils import getToolByName
 from plone.registry.interfaces import IRegistry
 
 from mrs.max.browser.controlpanel import IMAXUISettings
+from ulearn.core.controlpanel import IUlearnControlPanelSettings
 
 TEMPLATE = """\
 if (!window._MAXUI) {window._MAXUI = {}; }
@@ -57,10 +58,16 @@ class MAXJSVariables(BrowserView):
         default_lang = pl.getDefaultLanguage()
 
         activity_views_map = {
-            'Darreres activitats': 'recent',
+            'Darreres Activitats': 'recent',
             'Activitats mes valorades': 'likes',
             'Activitats destacades': 'flagged'
         }
+
+        try:
+            ulearn_settings = registry.forInterface(IUlearnControlPanelSettings)
+            activity_view = ulearn_settings.activity_view
+        except:
+            activity_view = 'darreres_activitats'
         return TEMPLATE % dict(
             username=username,
             oauth_token=oauth_token,
@@ -71,7 +78,7 @@ class MAXJSVariables(BrowserView):
             profile_url='%s/profile/{0}' % (portal_url),
             contexts=self.context.absolute_url(),
             activitySource='timeline',
-            activitySortView=activity_views_map.get(self.context.activity_view, 'recent'),
+            activitySortView=activity_views_map.get(activity_view, 'recent'),
             language=default_lang,
             max_domain=settings.max_domain
         )
