@@ -1,11 +1,13 @@
 Changelog
 =========
 
-4.0.25 (unreleased)
+4.0.25 (2015-01-20)
 -------------------
 
-- Nothing changed yet.
-
+* Use activity_view from global control panel [Carles Bruguera]
+* Update maxui to 4.1.1 [Carles Bruguera]
+* Map view names between ulearn and maxui [Carles Bruguera]
+* Add activity_view variable [Carles Bruguera]
 
 4.0.24 (2014-09-25)
 -------------------
