@@ -48,6 +48,8 @@ def changeMemberPortrait(self, portrait, id=None):
         membertool._setPortrait(portrait, safe_id)
 
         # Update the user's avatar on MAX
+        #the next line to user's that have '-' in id
+        safe_id = safe_id.replace('--', '-')
         memberdata = self.getMemberById(safe_id)
         oauth_token = memberdata.getProperty('oauth_token', '')
         scaled.seek(0)
