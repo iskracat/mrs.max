@@ -1,0 +1,1 @@
+<oauthinfo max_server="${viewlet/max_server}" username="${viewlet/username}" oauth_token="${viewlet/oauth_token}"></oauthinfo>
