@@ -1,11 +1,10 @@
 Changelog
 =========
 
-4.0.28 (unreleased)
+4.0.28 (2015-03-05)
 -------------------
 
-- Nothing changed yet.
-
+* Error al canviar imatge perfil a les comunitats [Paco Gregori]
 
 4.0.27 (2015-01-22)
 -------------------
